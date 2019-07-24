@@ -1,0 +1,30 @@
+{
+    "name": "dtenishev/jetphp-signals",
+    "description": "Simple Signal Handler implementation.",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Dmitry Tenishev",
+            "email": "dmitry.tenishev@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "jetphp\\signals\\": "src/jetphp/signals/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "jetphp\\signals\\tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "ext-pcntl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.*"
+    }
+}
