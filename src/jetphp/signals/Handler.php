@@ -5,16 +5,31 @@ namespace jetphp\signals;
 class Handler {
 
 	protected $signals;
+	protected $ignoredSignals;
 
 	public function __construct() {
 		if ( !extension_loaded( 'pcntl' ) ) {
 			throw new \RuntimeException( 'Pcntl extension is missing' );
 		}
 		$this->signals = [];
+		$this->ignoredSignals = [];
 	}
 
 	public function __destruct() {
 		$this->restore();
+	}
+
+	/**
+	 * @param int|array $signoOrArray
+	 */
+	public function ignore( $signoOrArray ) {
+		if ( is_scalar( $signoOrArray ) ) {
+			$signoOrArray = array( $signoOrArray );
+		}
+		foreach ( $signoOrArray as $signo ) {
+			\pcntl_signal( $signo, \SIG_IGN );
+			$this->ignoredSignals[$signo] = $signo;
+		}
 	}
 
 	public function handle( $signo, $handler ) {
@@ -57,6 +72,7 @@ class Handler {
 			\pcntl_signal( $signo, \SIG_DFL );
 		}
 		$this->signals = [];
+		$this->ignoredSignals = [];
 	}
 
 	public function onSignal( $signo/*, $siginfo*/ ) {
