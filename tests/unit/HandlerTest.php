@@ -29,6 +29,12 @@ class HandlerTest extends TestCase {
 		$this->assertEquals( $catchSigno, $caughtSigno, 'Caught wrong signal' );
 	}
 
+	public function testHandlerArray() {
+		$signalHandler = $this->getSignalHandler();
+		$handler = $signalHandler->handle( \SIGINT, array( $this, __METHOD__ ) );
+		$this->assertNotTrue( is_array( $handler ), "Handler should be lambda function" );
+	}
+
 	public function testUnhandleOne() {
 		$called = false;
 		$signalHandler = $this->getSignalHandler();

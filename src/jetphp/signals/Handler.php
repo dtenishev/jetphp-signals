@@ -25,6 +25,11 @@ class Handler {
 			\pcntl_signal( $signo, [ $this, 'onSignal' ], false );
 			$this->signals[$signo] = [];
 		}
+		if ( is_array( $handler ) ) {
+			$handler = function() use ($handler) {
+				call_user_func( $handler );
+			};
+		}
 		$handlerKey = spl_object_hash( $handler );
 		$this->signals[$signo][$handlerKey] = $handler;
 		return $handler;
